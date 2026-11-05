@@ -1,0 +1,372 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "业务需求主流程 · 设计草案",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": ".archify/workflow-orbito-business-20261105-162118/business.html"
+  },
+  "lanes": [
+    {
+      "id": "intake",
+      "label": "需求依据"
+    },
+    {
+      "id": "human",
+      "label": "你的操作"
+    },
+    {
+      "id": "execution",
+      "label": "Agent 执行"
+    },
+    {
+      "id": "verification",
+      "label": "验证与恢复"
+    },
+    {
+      "id": "delivery",
+      "label": "验收与交付"
+    }
+  ],
+  "phases": [
+    {
+      "id": "prepare",
+      "label": "发现与补齐",
+      "fromCol": 0,
+      "toCol": 2
+    },
+    {
+      "id": "build",
+      "label": "确认与实现",
+      "fromCol": 3,
+      "toCol": 3
+    },
+    {
+      "id": "ship",
+      "label": "验证与交付",
+      "fromCol": 4,
+      "toCol": 5
+    }
+  ],
+  "nodes": [
+    {
+      "id": "discover",
+      "lane": "intake",
+      "col": 0,
+      "type": "external",
+      "label": "发现我的需求",
+      "sublabel": "飞书表格轮询"
+    },
+    {
+      "id": "start",
+      "lane": "human",
+      "col": 0,
+      "type": "security",
+      "label": "开始需求",
+      "icon": "person"
+    },
+    {
+      "id": "gather",
+      "lane": "intake",
+      "col": 1,
+      "type": "backend",
+      "label": "提取实现范围",
+      "sublabel": "首版聚焦前端"
+    },
+    {
+      "id": "basis",
+      "lane": "intake",
+      "col": 2,
+      "type": "backend",
+      "label": "补齐实现依据",
+      "sublabel": "ApiFox / Figma"
+    },
+    {
+      "id": "research",
+      "lane": "intake",
+      "col": 3,
+      "type": "backend",
+      "label": "只读调研",
+      "sublabel": "推荐仓库与方案"
+    },
+    {
+      "id": "confirm",
+      "lane": "human",
+      "col": 3,
+      "type": "security",
+      "label": "确认并开始",
+      "sublabel": "范围 / 仓库 / 方案",
+      "icon": "decision"
+    },
+    {
+      "id": "change",
+      "lane": "human",
+      "col": 1,
+      "type": "security",
+      "label": "确认新增变更",
+      "sublabel": "转发 / 文档 / 接口",
+      "icon": "person"
+    },
+    {
+      "id": "tree",
+      "lane": "execution",
+      "col": 3,
+      "type": "backend",
+      "label": "准备 worktree",
+      "sublabel": "按需克隆 / 多仓库"
+    },
+    {
+      "id": "implement",
+      "lane": "execution",
+      "col": 4,
+      "type": "backend",
+      "label": "实现与修改",
+      "sublabel": "Codex CLI"
+    },
+    {
+      "id": "review",
+      "lane": "execution",
+      "col": 5,
+      "type": "backend",
+      "label": "审查",
+      "sublabel": "绑定代码版本"
+    },
+    {
+      "id": "wait",
+      "lane": "verification",
+      "col": 1,
+      "type": "external",
+      "label": "等待资料",
+      "sublabel": "纯前端无需协议",
+      "icon": "waiting"
+    },
+    {
+      "id": "pause",
+      "lane": "verification",
+      "col": 2,
+      "type": "security",
+      "label": "暂停待处理",
+      "sublabel": "歧义 / 超限 / 缺环境",
+      "icon": "stop"
+    },
+    {
+      "id": "result",
+      "lane": "verification",
+      "col": 4,
+      "type": "database",
+      "label": "汇总验证证据",
+      "sublabel": "通过 / 未验证项"
+    },
+    {
+      "id": "test",
+      "lane": "verification",
+      "col": 5,
+      "type": "backend",
+      "label": "自测",
+      "sublabel": "检查实际结果"
+    },
+    {
+      "id": "accept",
+      "lane": "delivery",
+      "col": 2,
+      "type": "security",
+      "label": "验收结果",
+      "sublabel": "查看差异和证据",
+      "icon": "person"
+    },
+    {
+      "id": "commit",
+      "lane": "delivery",
+      "col": 3,
+      "type": "security",
+      "label": "点击提交",
+      "sublabel": "选文件 / 提交说明"
+    },
+    {
+      "id": "push",
+      "lane": "delivery",
+      "col": 4,
+      "type": "security",
+      "label": "点击推送",
+      "sublabel": "目标远程与分支"
+    },
+    {
+      "id": "deploy",
+      "lane": "delivery",
+      "col": 5,
+      "type": "security",
+      "label": "点击部署",
+      "sublabel": "DevHub / Jenkins"
+    }
+  ],
+  "mainPath": [
+    "discover",
+    "start",
+    "gather",
+    "basis",
+    "research",
+    "confirm",
+    "tree",
+    "implement",
+    "review"
+  ],
+  "edges": [
+    {
+      "id": "found",
+      "from": "discover",
+      "to": "start"
+    },
+    {
+      "id": "started",
+      "from": "start",
+      "to": "gather"
+    },
+    {
+      "id": "extracted",
+      "from": "gather",
+      "to": "basis"
+    },
+    {
+      "id": "ready",
+      "from": "basis",
+      "to": "research",
+      "label": "依据齐全"
+    },
+    {
+      "id": "missing",
+      "from": "basis",
+      "to": "wait",
+      "role": "branch",
+      "label": "缺少必要资料"
+    },
+    {
+      "id": "supplied",
+      "from": "wait",
+      "to": "basis",
+      "role": "return",
+      "label": "补充后"
+    },
+    {
+      "id": "propose",
+      "from": "research",
+      "to": "confirm"
+    },
+    {
+      "id": "approved",
+      "from": "confirm",
+      "to": "tree",
+      "variant": "security",
+      "label": "已确认"
+    },
+    {
+      "id": "prepared",
+      "from": "tree",
+      "to": "implement"
+    },
+    {
+      "id": "implemented",
+      "from": "implement",
+      "to": "review"
+    },
+    {
+      "id": "reviewed",
+      "from": "review",
+      "to": "test",
+      "label": "审查通过"
+    },
+    {
+      "id": "review_issue",
+      "from": "review",
+      "to": "implement",
+      "role": "return",
+      "label": "发现问题"
+    },
+    {
+      "id": "tested",
+      "from": "test",
+      "to": "result",
+      "label": "自测通过"
+    },
+    {
+      "id": "test_issue",
+      "from": "test",
+      "to": "implement",
+      "role": "return",
+      "label": "检查失败"
+    },
+    {
+      "id": "stopped",
+      "from": "implement",
+      "to": "pause",
+      "role": "error",
+      "label": "需人工处理"
+    },
+    {
+      "id": "reconfirm",
+      "from": "pause",
+      "to": "confirm",
+      "role": "return",
+      "label": "处理后重审"
+    },
+    {
+      "id": "inspect",
+      "from": "result",
+      "to": "accept"
+    },
+    {
+      "id": "accepted",
+      "from": "accept",
+      "to": "commit",
+      "label": "验收后"
+    },
+    {
+      "id": "committed",
+      "from": "commit",
+      "to": "push",
+      "label": "提交成功后"
+    },
+    {
+      "id": "pushed",
+      "from": "push",
+      "to": "deploy",
+      "label": "推送成功后"
+    },
+    {
+      "id": "amend",
+      "from": "change",
+      "to": "basis",
+      "variant": "security",
+      "label": "更新依据"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "开始前",
+      "items": [
+        "在设置中添加飞书地址、选择目录、连接 Codex CLI；后续可增改来源。",
+        "需要后端时先确认初步接口协议；纯前端需求可直接补齐其他依据。",
+        "后端与客户端后续沿用主流程；按实现职责关联仓库、依据、验证和交付方式。"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "运行中",
+      "items": [
+        "实现、审查、修改、自测自动循环；轮次上限、需求歧义与缺失环境触发暂停。",
+        "新增变更经你确认后接入；运行中的任务先安全暂停，再更新方案与执行轮次。",
+        "同一 worktree 同时只允许一个写入 Agent；不同需求或可解耦仓库可并行。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "交付与恢复",
+      "items": [
+        "提交、推送、部署分别由按钮触发；失败留在对应动作处理，不自动跳过。",
+        "DevHub 沿用已有通知配置；请求受理、构建与部署结果分别记录。",
+        "每阶段保存依据、配置版本与交接；审查和测试失败不进入验收交付。"
+      ]
+    }
+  ]
+}

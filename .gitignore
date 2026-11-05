@@ -147,3 +147,21 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# Rust build output (keep Cargo.lock for the application)
+target/
+**/*.rs.bk
+
+# Local OS files
+.DS_Store
+Thumbs.db
+
+# Machine bindings, credentials, and runtime state
+.orbito/local/
+.orbito/runtime/
+
+# Archify generated inspection receipts; keep source and standalone HTML
+.archify/**/*.json
+!.archify/**/candidate.json
+.archify/**/review-*/
+.archify/**/visual-check/

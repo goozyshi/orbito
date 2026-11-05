@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Orbito 产品全景 · 设计草案",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "output": ".archify/architecture-orbito-overview-20261105-162118/overview.html"
+  },
+  "components": [
+    {
+      "id": "sources",
+      "type": "external",
+      "label": "飞书数据源",
+      "pos": [
+        40,
+        40
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "排期表 / 走查表"
+    },
+    {
+      "id": "task",
+      "type": "frontend",
+      "label": "需求与任务",
+      "pos": [
+        350,
+        40
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "文档 / ApiFox / Figma"
+    },
+    {
+      "id": "approval",
+      "type": "security",
+      "label": "你确认方案",
+      "pos": [
+        660,
+        40
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "范围 / 仓库 / 验收条件"
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "Codex CLI",
+      "pos": [
+        970,
+        40
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "独立阶段与上下文"
+    },
+    {
+      "id": "source_config",
+      "type": "frontend",
+      "label": "数据源设置",
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "新增 / 编辑 / 暂停"
+    },
+    {
+      "id": "chat",
+      "type": "frontend",
+      "label": "会话与历史",
+      "pos": [
+        350,
+        260
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "独立问答 / 关联任务"
+    },
+    {
+      "id": "config",
+      "type": "backend",
+      "label": "Agent 配置中心",
+      "pos": [
+        660,
+        260
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "全局 + 项目 rules / skills"
+    },
+    {
+      "id": "worktrees",
+      "type": "backend",
+      "label": "多仓库 worktree",
+      "pos": [
+        970,
+        260
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "实现 → 审查 → 自测"
+    },
+    {
+      "id": "archive",
+      "type": "database",
+      "label": "任务档案与记忆",
+      "pos": [
+        350,
+        480
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "Orbito 仓库 / Git 交接"
+    },
+    {
+      "id": "review",
+      "type": "security",
+      "label": "你验收结果",
+      "pos": [
+        660,
+        480
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "代码差异 / 验证证据"
+    },
+    {
+      "id": "delivery",
+      "type": "backend",
+      "label": "提交 / 推送 / 部署",
+      "pos": [
+        970,
+        480
+      ],
+      "size": [
+        190,
+        66
+      ],
+      "sublabel": "DevHub → Jenkins → 飞书"
+    }
+  ],
+  "connections": [
+    {
+      "id": "poll",
+      "from": "sources",
+      "to": "task",
+      "label": "轮询发现"
+    },
+    {
+      "id": "plan",
+      "from": "task",
+      "to": "approval",
+      "label": "整理调研"
+    },
+    {
+      "id": "authorize",
+      "from": "approval",
+      "to": "agent",
+      "variant": "security",
+      "label": "确认后执行"
+    },
+    {
+      "id": "configure",
+      "from": "source_config",
+      "to": "sources",
+      "label": "配置来源"
+    },
+    {
+      "id": "ask",
+      "from": "chat",
+      "to": "task",
+      "label": "追问 / 转任务"
+    },
+    {
+      "id": "rules",
+      "from": "config",
+      "to": "approval",
+      "label": "固定配置版本"
+    },
+    {
+      "id": "execute",
+      "from": "agent",
+      "to": "worktrees",
+      "label": "受控执行"
+    },
+    {
+      "id": "evidence",
+      "from": "worktrees",
+      "to": "review",
+      "label": "验证结果"
+    },
+    {
+      "id": "deliver",
+      "from": "review",
+      "to": "delivery",
+      "variant": "security",
+      "label": "逐项点击"
+    },
+    {
+      "id": "record",
+      "from": "review",
+      "to": "archive",
+      "label": "保存证据"
+    },
+    {
+      "id": "resume",
+      "from": "archive",
+      "to": "chat",
+      "label": "历史与交接"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "首版",
+      "items": [
+        "Rust 核心 + 本机 Web + Codex CLI；图中是产品设计，尚未实现。",
+        "需求详情和独立会话共用任务上下文；普通问答不直接授权改代码。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "跨电脑",
+      "items": [
+        "Git 同步文档、角色、rules / skills 与任务检查点；代码在各业务仓库同步。",
+        "本机重新选择目录、检测 CLI 和登录；依据交接记录恢复，不迁移进程。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "后续扩展",
+      "items": [
+        "Sentry Top 10、自主开发与 Orbito 自身迭代，复用任务执行能力。",
+        "按需扩展流程模板、pi / Cursor CLI、Tauri 与云端访问；首版不做通用拖拽编排。",
+        "首版聚焦前端；后续按开发职责承载后端、客户端与跨端需求，同一仓库可含多个端。"
+      ]
+    }
+  ]
+}
